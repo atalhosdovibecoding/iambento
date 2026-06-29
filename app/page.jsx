@@ -1,0 +1,341 @@
+import {
+  ArrowRight,
+  BadgeCheck,
+  Crown,
+  Flame,
+  Gem,
+  KeyRound,
+  Lock,
+  ShieldCheck,
+  UserRoundCheck
+} from "lucide-react";
+import { plans as memberPlans } from "../lib/plans";
+
+const previews = [
+  { title: "Espelho privado", src: "/images/real/impact-preview.jpg", position: "50% 50%", featured: true },
+  { title: "Abdomen quente", src: "/images/real/bathroom-black.jpg", position: "50% 62%" },
+  { title: "Na cama", src: "/images/real/bed-close.png", position: "52% 48%" },
+  { title: "Depois do treino", src: "/images/real/gym-white.png", position: "50% 36%" },
+  { title: "Espelho escuro", src: "/images/real/locker-black.png", position: "50% 34%" },
+  { title: "Banho reservado", src: "/images/real/bathroom-green.png", position: "50% 20%" }
+];
+
+const inside = [
+  "Acesso direto ao conteúdo exclusivo",
+  "Experiência discreta, simples e privada",
+  "Atmosfera quente, sem exagero ou vulgaridade",
+  "Plano único, sem surpresa no valor"
+];
+
+const privacy = [
+  { icon: KeyRound, title: "Acesso imediato" },
+  { icon: ShieldCheck, title: "Compra discreta" },
+  { icon: Lock, title: "Área reservada" },
+  { icon: UserRoundCheck, title: "+18" }
+];
+
+function CTAButton({ children, variant = "gold", href = "#acesso" }) {
+  const classes =
+    variant === "outline"
+      ? "border border-bone/20 bg-ink/35 text-bone hover:border-gold/60 hover:bg-bone/[0.07]"
+      : "border border-gold/55 bg-gradient-to-r from-[#ff2a3d] to-[#9b0f1d] text-bone";
+
+  return (
+    <a
+      href={href}
+      className={`premium-button inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-sm px-5 py-3 text-sm font-semibold uppercase tracking-[0.12em] sm:w-auto ${classes}`}
+    >
+      {children}
+      <ArrowRight className="h-4 w-4" aria-hidden="true" />
+    </a>
+  );
+}
+
+export default function Home() {
+  const primaryPlan = memberPlans[0];
+
+  return (
+    <main className="bg-ink text-bone">
+      <section className="hot-hero relative isolate min-h-screen overflow-hidden">
+        <img
+          src="/images/real/impact-preview-bg.jpg"
+          alt="Bento Silva em registro privado"
+          className="sales-hero-image absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/16 via-ink/46 to-ink" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/86 via-ink/42 to-ink/62" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_18%,transparent_0,rgba(5,5,5,0.08)_22%,rgba(5,5,5,0.78)_82%)]" />
+
+        <header className="absolute left-0 right-0 top-0 z-20 px-5 py-5 sm:px-8 lg:px-12">
+          <div className="mx-auto flex max-w-7xl items-center justify-between">
+            <a href="#" className="text-sm font-semibold uppercase tracking-[0.3em] text-bone">
+              Bento Silva
+            </a>
+            <div className="flex items-center gap-2">
+              <span className="rounded-full border border-gold/35 bg-gold/10 px-3 py-1.5 text-xs font-semibold text-gold backdrop-blur">
+                +18
+              </span>
+              <a
+                href="#acesso"
+                className="rounded-full border border-bone/15 bg-ink/35 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-bone/76 backdrop-blur transition hover:border-gold/45 hover:text-gold"
+              >
+                Private
+              </a>
+            </div>
+          </div>
+        </header>
+
+        <div className="relative z-10 flex min-h-screen items-end px-5 pb-8 pt-24 sm:px-8 lg:px-12 lg:pb-14">
+          <div className="mx-auto grid w-full max-w-7xl gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
+            <div className="hero-fade max-w-2xl">
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-gold/35 bg-ink/56 px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-gold backdrop-blur">
+                <span className="live-dot" />
+                Plano único R$30
+              </div>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.32em] text-bone/58">
+                Conteúdo adulto reservado
+              </p>
+              <h1 className="font-display text-5xl font-semibold leading-none text-bone sm:text-7xl lg:text-8xl">
+                Bento Silva,
+                <br />
+                em acesso reservado.
+              </h1>
+              <p className="mt-5 max-w-xl text-lg leading-8 text-smoke sm:text-xl">
+                Conteúdo adulto com presença, elegância e intimidade, feito para quem prefere discrição sem perder intensidade.
+              </p>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <CTAButton>Entrar no privado por R$30</CTAButton>
+                <CTAButton href="#previas" variant="outline">
+                  Ver prévias
+                </CTAButton>
+              </div>
+            </div>
+
+            <div className="hot-strip grid grid-cols-3 gap-2 sm:gap-3">
+              {previews.slice(1, 4).map((item, index) => (
+                <a
+                  href="#previas"
+                  key={item.title}
+                  className="hot-thumb group relative aspect-[3/4] overflow-hidden border border-bone/12 bg-ink/45"
+                  style={{ animationDelay: `${index * 240}ms` }}
+                >
+                  <img
+                    src={item.src}
+                    alt={item.title}
+                    className="h-full w-full object-cover"
+                    style={{ objectPosition: item.position }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-ink/48 via-ink/68 to-ink/96" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,rgba(255,42,61,0.08)_0,rgba(5,5,5,0.68)_58%,rgba(5,5,5,0.94)_100%)]" />
+                  <Lock className="absolute right-3 top-3 h-4 w-4 text-gold" aria-hidden="true" />
+                  <p className="absolute bottom-3 left-3 right-3 text-sm font-semibold text-bone">
+                    {item.title}
+                  </p>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-bone/10 bg-coal px-5 py-5 sm:px-8 lg:px-14">
+        <div className="mx-auto grid max-w-6xl gap-3 sm:grid-cols-4">
+          {privacy.map(({ icon: Icon, title }) => (
+            <div key={title} className="flex items-center gap-3 text-sm font-medium text-bone/76">
+              <Icon className="h-4 w-4 shrink-0 text-gold" aria-hidden="true" />
+              {title}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="previas" className="px-5 py-16 sm:px-8 lg:px-14">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-gold">
+                Feed privado
+              </p>
+              <h2 className="font-display text-3xl font-semibold leading-tight text-bone sm:text-5xl">
+                Prévias bloqueadas
+              </h2>
+            </div>
+            <p className="max-w-md text-sm leading-7 text-smoke">
+              Um recorte. O resto esquenta dentro da área private.
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {previews.map((item) => (
+              <article
+                tabIndex={0}
+                key={item.title}
+                className={`preview-tile reveal-card group relative overflow-hidden border border-bone/10 bg-ink shadow-premium outline-none ${
+                  item.featured ? "preview-tile-featured aspect-[16/10] sm:col-span-2 lg:col-span-2" : "aspect-[4/5]"
+                }`}
+              >
+                <img
+                  src={item.src}
+                  alt={`Prévia editorial: ${item.title}`}
+                  className="h-full w-full object-cover"
+                  style={{ objectPosition: item.position }}
+                />
+                <div className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-bone/15 bg-ink/60 backdrop-blur">
+                  <Lock className="h-4 w-4 text-gold" aria-hidden="true" />
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <Flame className="mb-3 h-5 w-5 text-gold" aria-hidden="true" />
+                  <h3 className={item.featured ? "text-2xl font-semibold text-bone sm:text-3xl" : "text-xl font-semibold text-bone"}>
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-bone/58">
+                    {item.featured ? "A prévia de maior impacto fica bloqueada no private." : "Reservado no private."}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="dentro" className="bg-coal px-5 py-16 sm:px-8 lg:px-14">
+        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+          <div>
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-gold">
+              Dentro
+            </p>
+            <h2 className="font-display text-3xl font-semibold leading-tight text-bone sm:text-5xl">
+              Um acesso simples, direto e reservado.
+            </h2>
+            <p className="mt-6 text-base leading-8 text-smoke sm:text-lg">
+              O privado do Bento em uma experiência discreta, com valor fechado e sem plano confuso.
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            {inside.map((item) => (
+              <div
+                key={item}
+                className="reveal-card flex min-h-16 items-center gap-3 border border-bone/10 bg-ink/45 p-4"
+              >
+                <BadgeCheck className="h-5 w-5 shrink-0 text-gold" aria-hidden="true" />
+                <p className="text-sm leading-6 text-bone/82">{item}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="acesso" className="px-5 py-16 sm:px-8 lg:px-14">
+        <div className="mx-auto max-w-6xl">
+          <div className="offer-panel reveal-card overflow-hidden border border-bone/10 bg-bone/[0.035] shadow-premium">
+            <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
+              <div className="p-6 sm:p-8 lg:p-10">
+                <div className="mb-7 inline-flex items-center gap-2 border border-gold/35 bg-gold/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-gold">
+                  <Crown className="h-3.5 w-3.5" aria-hidden="true" />
+                  Acesso único
+                </div>
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-gold">
+                  Desbloqueio
+                </p>
+                <h2 className="font-display text-4xl font-semibold leading-tight text-bone sm:text-6xl">
+                  Entre no private por R$30.
+                </h2>
+                <p className="mt-5 max-w-xl text-sm leading-7 text-smoke sm:text-base">
+                  {primaryPlan.description} Compra direta pelo checkout seguro da SyncPay e acesso enviado no email da compra.
+                </p>
+
+                <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                  <div className="offer-proof">
+                    <KeyRound className="h-4 w-4 text-gold" aria-hidden="true" />
+                    <span>Acesso imediato</span>
+                  </div>
+                  <div className="offer-proof">
+                    <ShieldCheck className="h-4 w-4 text-gold" aria-hidden="true" />
+                    <span>Pagamento discreto</span>
+                  </div>
+                  <div className="offer-proof">
+                    <Lock className="h-4 w-4 text-gold" aria-hidden="true" />
+                    <span>Área privada</span>
+                  </div>
+                  <div className="offer-proof">
+                    <UserRoundCheck className="h-4 w-4 text-gold" aria-hidden="true" />
+                    <span>Conteúdo +18</span>
+                  </div>
+                </div>
+              </div>
+
+              <aside className="offer-checkout flex flex-col justify-between border-t border-bone/10 p-6 sm:p-8 lg:border-l lg:border-t-0 lg:p-10">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-bone/55">
+                    Plano único
+                  </p>
+                  <h3 className="mt-3 text-2xl font-semibold text-bone">{primaryPlan.name}</h3>
+                  <p className="mt-6 font-display text-6xl font-semibold leading-none text-bone">
+                    {primaryPlan.priceLabel}
+                  </p>
+                  <p className="mt-3 text-sm text-smoke">
+                    Valor fechado para acessar o privado.
+                  </p>
+                </div>
+                <div className="mt-8 space-y-4">
+                  <CTAButton href="/checkout">Entrar no privado por R$30</CTAButton>
+                  <p className="text-xs leading-5 text-bone/48">
+                    Ao comprar, use um email válido para receber o acesso da área de membros.
+                  </p>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="closing-cta relative isolate overflow-hidden border-y border-bone/10 px-5 py-24 sm:px-8 lg:px-14">
+        <div className="relative z-10 mx-auto max-w-4xl text-center">
+          <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full border border-gold/35 bg-gold/10">
+            <Gem className="h-6 w-6 text-gold" aria-hidden="true" />
+          </div>
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-gold">
+            Private
+          </p>
+          <h2 className="font-display text-4xl font-semibold leading-tight text-bone sm:text-6xl">
+            Quer entrar no reservado?
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-smoke sm:text-lg">
+            Plano único de R$30 para acessar o privado do Bento Silva.
+          </p>
+          <div className="mt-8">
+            <CTAButton>Entrar no privado por R$30</CTAButton>
+            <p className="mt-4 text-xs uppercase tracking-[0.16em] text-bone/55">
+              Conteúdo destinado exclusivamente a maiores de 18 anos.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t border-bone/10 px-5 py-8 sm:px-8 lg:px-14">
+        <div className="mx-auto flex max-w-6xl flex-col gap-5 text-sm text-bone/60 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="font-semibold uppercase tracking-[0.22em] text-bone">
+              Bento Silva
+            </p>
+            <p className="mt-2">
+              Aviso: conteúdo adulto destinado a maiores de 18 anos.
+            </p>
+          </div>
+          <nav className="flex flex-wrap gap-5">
+            <a href="#" className="hover:text-gold">
+              Termos
+            </a>
+            <a href="#" className="hover:text-gold">
+              Privacidade
+            </a>
+            <a href="#" className="hover:text-gold">
+              Suporte
+            </a>
+          </nav>
+        </div>
+      </footer>
+    </main>
+  );
+}
