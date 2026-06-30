@@ -41,7 +41,7 @@ const identifier = `manual-test-${Date.now()}`;
 const payload = {
   id: identifier,
   status: "paid",
-  amount_cents: 3000,
+  amount_cents: 116,
   plan_id: "vip",
   customer: {
     email,

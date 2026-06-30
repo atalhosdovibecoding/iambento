@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { getSupabaseBrowser } from "../../lib/supabaseBrowser";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -13,16 +12,19 @@ export default function LoginForm() {
     setLoading(true);
     setStatus("");
 
-    const supabase = getSupabaseBrowser();
-    const { error } = await supabase.auth.signInWithOtp({
-      email: email.trim().toLowerCase(),
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-        shouldCreateUser: false
-      }
+    const response = await fetch("/api/auth/send-access", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({ email: email.trim().toLowerCase() })
     });
 
-    setStatus(error ? "Nao encontramos acesso ativo para esse email." : "Link de acesso enviado.");
+    setStatus(
+      response.ok
+        ? "Se esse email tiver acesso ativo, o link chega em instantes."
+        : "Digite um email valido para receber o acesso."
+    );
     setLoading(false);
   }
 

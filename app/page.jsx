@@ -13,6 +13,7 @@ import { plans as memberPlans } from "../lib/plans";
 
 const previews = [
   { title: "Espelho privado", src: "/images/real/impact-preview.jpg", position: "50% 50%", featured: true },
+  { title: "Pós-treino", src: "/images/real/gym-mirror-grey.png", position: "50% 34%" },
   { title: "Abdomen quente", src: "/images/real/bathroom-black.jpg", position: "50% 62%" },
   { title: "Na cama", src: "/images/real/bed-close.png", position: "52% 48%" },
   { title: "Depois do treino", src: "/images/real/gym-white.png", position: "50% 36%" },
@@ -90,7 +91,7 @@ export default function Home() {
             <div className="hero-fade max-w-2xl">
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-gold/35 bg-ink/56 px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-gold backdrop-blur">
                 <span className="live-dot" />
-                Plano único R$30
+                Plano teste R$1,16
               </div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.32em] text-bone/58">
                 Conteúdo adulto reservado
@@ -104,7 +105,7 @@ export default function Home() {
                 Conteúdo adulto com presença, elegância e intimidade, feito para quem prefere discrição sem perder intensidade.
               </p>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <CTAButton>Entrar no privado por R$30</CTAButton>
+                <CTAButton>Entrar no privado por R$1,16</CTAButton>
                 <CTAButton href="#previas" variant="outline">
                   Ver prévias
                 </CTAButton>
@@ -125,8 +126,8 @@ export default function Home() {
                     className="h-full w-full object-cover"
                     style={{ objectPosition: item.position }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-b from-ink/48 via-ink/68 to-ink/96" />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,rgba(255,42,61,0.08)_0,rgba(5,5,5,0.68)_58%,rgba(5,5,5,0.94)_100%)]" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-ink/8 via-ink/16 to-ink/66" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,rgba(255,42,61,0.14)_0,rgba(5,5,5,0.14)_58%,rgba(5,5,5,0.52)_100%)]" />
                   <Lock className="absolute right-3 top-3 h-4 w-4 text-gold" aria-hidden="true" />
                   <p className="absolute bottom-3 left-3 right-3 text-sm font-semibold text-bone">
                     {item.title}
@@ -239,10 +240,10 @@ export default function Home() {
                   Desbloqueio
                 </p>
                 <h2 className="font-display text-4xl font-semibold leading-tight text-bone sm:text-6xl">
-                  Entre no private por R$30.
+                  Entre no private por R$1,16.
                 </h2>
                 <p className="mt-5 max-w-xl text-sm leading-7 text-smoke sm:text-base">
-                  {primaryPlan.description} Compra direta pelo checkout seguro da SyncPay e acesso enviado no email da compra.
+                  {primaryPlan.description} Compra direta por Pix no checkout seguro da VizzionPay e acesso enviado no email da compra.
                 </p>
 
                 <div className="mt-8 grid gap-3 sm:grid-cols-2">
@@ -279,7 +280,7 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="mt-8 space-y-4">
-                  <CTAButton href="/checkout">Entrar no privado por R$30</CTAButton>
+                  <CTAButton href="/checkout">Entrar no privado por R$1,16</CTAButton>
                   <p className="text-xs leading-5 text-bone/48">
                     Ao comprar, use um email válido para receber o acesso da área de membros.
                   </p>
@@ -302,10 +303,10 @@ export default function Home() {
             Quer entrar no reservado?
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-smoke sm:text-lg">
-            Plano único de R$30 para acessar o privado do Bento Silva.
+            Plano teste de R$1,16 para acessar o privado do Bento Silva.
           </p>
           <div className="mt-8">
-            <CTAButton>Entrar no privado por R$30</CTAButton>
+            <CTAButton>Entrar no privado por R$1,16</CTAButton>
             <p className="mt-4 text-xs uppercase tracking-[0.16em] text-bone/55">
               Conteúdo destinado exclusivamente a maiores de 18 anos.
             </p>

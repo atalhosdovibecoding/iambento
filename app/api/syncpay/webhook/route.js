@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import { NextResponse } from "next/server";
+import { sendAccessMagicLink } from "../../../../lib/accessEmail";
 import { findOrCreateCustomer, grantMembership } from "../../../../lib/memberAccess";
 import { getPlan, plans } from "../../../../lib/plans";
 import { getSupabaseAdmin } from "../../../../lib/supabaseAdmin";
@@ -308,11 +309,18 @@ export async function POST(request) {
 
     if (updateError) throw updateError;
 
+    let accessEmailSent = false;
+
     if (status === "completed") {
       await grantMembership({ customer: updatedOrder.customers, order: updatedOrder });
+      const emailResult = await sendAccessMagicLink({
+        email: updatedOrder.customers?.email,
+        name: updatedOrder.customers?.name
+      });
+      accessEmailSent = emailResult.sent;
     }
 
-    return NextResponse.json({ received: true });
+    return NextResponse.json({ received: true, accessEmailSent });
   } catch (error) {
     console.error("syncpay_webhook_error", error);
     return NextResponse.json({ error: "webhook_error" }, { status: 500 });
