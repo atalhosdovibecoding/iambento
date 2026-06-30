@@ -12,20 +12,30 @@ export default function LoginForm() {
     setLoading(true);
     setStatus("");
 
-    const response = await fetch("/api/auth/send-access", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json"
-      },
-      body: JSON.stringify({ email: email.trim().toLowerCase() })
-    });
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 15000);
 
-    setStatus(
-      response.ok
-        ? "Se esse email tiver acesso ativo, o link chega em instantes."
-        : "Digite um email valido para receber o acesso."
-    );
-    setLoading(false);
+    try {
+      const response = await fetch("/api/auth/send-access", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({ email: email.trim().toLowerCase() }),
+        signal: controller.signal
+      });
+
+      setStatus(
+        response.ok
+          ? "Se esse email tiver acesso ativo, o link chega em instantes."
+          : "Digite um email valido para receber o acesso."
+      );
+    } catch {
+      setStatus("Nao foi possivel enviar agora. Tente novamente em instantes.");
+    } finally {
+      window.clearTimeout(timeout);
+      setLoading(false);
+    }
   }
 
   return (

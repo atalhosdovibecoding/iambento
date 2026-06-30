@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
+import { getAppUrl } from "../../../../lib/env";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  return NextResponse.redirect(new URL("/checkout", process.env.APP_URL || "http://127.0.0.1:3000"), {
+  return NextResponse.redirect(new URL("/checkout", getAppUrl()), {
     status: 307
   });
 }

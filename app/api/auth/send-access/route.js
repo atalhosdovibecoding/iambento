@@ -64,7 +64,14 @@ export async function POST(request) {
   }
 
   await createAuthUserIfPossible(customer);
-  await sendAccessMagicLink({ email: customer.email, name: customer.name });
+  const emailResult = await sendAccessMagicLink({ email: customer.email, name: customer.name });
+
+  if (!emailResult.sent) {
+    console.error("access_request_email_not_sent", {
+      email,
+      error: emailResult.error || "unknown_error"
+    });
+  }
 
   return genericResponse();
 }

@@ -115,7 +115,11 @@ export default function CheckoutForm() {
         if (!cancelled && response.ok) {
           setStatus(data.status || "pending");
           if (data.status === "completed") {
-            setMessage("Acesso liberado. O email de entrada foi enviado para o email da compra.");
+            setMessage(
+              data.accessEmailSent
+                ? "Acesso liberado. O email de entrada foi enviado para o email da compra."
+                : "Pagamento confirmado. Nao consegui enviar o email automatico agora; solicite o acesso em /login com o email da compra."
+            );
           }
         }
       } catch {

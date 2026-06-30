@@ -8,25 +8,49 @@ export default function AuthCallbackPage() {
 
   useEffect(() => {
     async function finishLogin() {
-      const supabase = getSupabaseBrowser();
-      const url = new URL(window.location.href);
-      const code = url.searchParams.get("code");
+      try {
+        const supabase = getSupabaseBrowser();
+        const url = new URL(window.location.href);
+        const code = url.searchParams.get("code");
+        const hashParams = new URLSearchParams(window.location.hash.slice(1));
+        const accessToken = hashParams.get("access_token");
+        const refreshToken = hashParams.get("refresh_token");
 
-      if (code) {
-        const { error } = await supabase.auth.exchangeCodeForSession(code);
-        if (error) {
-          setMessage("Nao foi possivel validar o acesso.");
+        if (hashParams.get("error")) {
+          setMessage("Link invalido ou expirado. Solicite um novo acesso.");
           return;
         }
-      }
 
-      const { data } = await supabase.auth.getSession();
-      if (!data.session) {
-        setMessage("Sessao nao encontrada.");
-        return;
-      }
+        if (accessToken && refreshToken) {
+          const { error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken
+          });
 
-      window.location.replace("/area");
+          if (error) {
+            setMessage("Nao foi possivel validar o acesso.");
+            return;
+          }
+
+          window.history.replaceState(null, "", "/auth/callback");
+        } else if (code) {
+          const { error } = await supabase.auth.exchangeCodeForSession(code);
+          if (error) {
+            setMessage("Nao foi possivel validar o acesso.");
+            return;
+          }
+        }
+
+        const { data } = await supabase.auth.getSession();
+        if (!data.session) {
+          setMessage("Sessao nao encontrada. Solicite um novo acesso.");
+          return;
+        }
+
+        window.location.replace("/area");
+      } catch {
+        setMessage("Nao foi possivel validar o acesso agora. Tente novamente.");
+      }
     }
 
     finishLogin();

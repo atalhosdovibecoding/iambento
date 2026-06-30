@@ -8,28 +8,38 @@ export default function AccessAuthPage() {
 
   useEffect(() => {
     async function verifyAccess() {
-      const url = new URL(window.location.href);
-      const email = String(url.searchParams.get("email") || "").trim().toLowerCase();
-      const token = String(url.searchParams.get("token") || "").trim();
+      try {
+        const url = new URL(window.location.href);
+        const email = String(url.searchParams.get("email") || "").trim().toLowerCase();
+        const token = String(url.searchParams.get("token") || "").trim();
 
-      if (!email || !token) {
-        setMessage("Link de acesso invalido.");
-        return;
+        if (!email || !token) {
+          setMessage("Link de acesso invalido.");
+          return;
+        }
+
+        const supabase = getSupabaseBrowser();
+        const { error } = await supabase.auth.verifyOtp({
+          email,
+          token,
+          type: "magiclink"
+        });
+
+        if (error) {
+          setMessage("Esse link expirou. Solicite um novo acesso.");
+          return;
+        }
+
+        const { data } = await supabase.auth.getSession();
+        if (!data.session) {
+          setMessage("Sessao nao encontrada. Solicite um novo acesso.");
+          return;
+        }
+
+        window.location.replace("/area");
+      } catch {
+        setMessage("Nao foi possivel liberar seu acesso agora. Tente novamente.");
       }
-
-      const supabase = getSupabaseBrowser();
-      const { error } = await supabase.auth.verifyOtp({
-        email,
-        token,
-        type: "magiclink"
-      });
-
-      if (error) {
-        setMessage("Esse link expirou. Solicite um novo acesso.");
-        return;
-      }
-
-      window.location.replace("/area");
     }
 
     verifyAccess();

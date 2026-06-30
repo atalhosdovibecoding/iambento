@@ -84,28 +84,46 @@ export default function MemberArea() {
 
   useEffect(() => {
     async function load() {
-      const supabase = getSupabaseBrowser();
-      const { data: sessionData } = await supabase.auth.getSession();
-      const token = sessionData.session?.access_token;
+      try {
+        const supabase = getSupabaseBrowser();
+        const { data: sessionData } = await supabase.auth.getSession();
+        const token = sessionData.session?.access_token;
 
-      if (!token) {
-        window.location.replace("/login");
-        return;
-      }
-
-      const response = await fetch("/api/member/summary", {
-        headers: {
-          Authorization: `Bearer ${token}`
+        if (!token) {
+          window.location.replace("/login");
+          return;
         }
-      });
-      const data = await response.json();
 
-      if (!response.ok) {
-        setState({ loading: false, error: "Acesso inativo ou expirado.", data: null });
-        return;
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 15000);
+        let response;
+
+        try {
+          response = await fetch("/api/member/summary", {
+            headers: {
+              Authorization: `Bearer ${token}`
+            },
+            signal: controller.signal
+          });
+        } finally {
+          window.clearTimeout(timeout);
+        }
+
+        const data = await response.json().catch(() => null);
+
+        if (!response.ok) {
+          setState({ loading: false, error: "Acesso inativo ou expirado.", data: null });
+          return;
+        }
+
+        setState({ loading: false, error: "", data });
+      } catch {
+        setState({
+          loading: false,
+          error: "Nao foi possivel carregar sua area agora. Recarregue a pagina e tente novamente.",
+          data: null
+        });
       }
-
-      setState({ loading: false, error: "", data });
     }
 
     load();

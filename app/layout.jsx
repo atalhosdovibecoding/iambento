@@ -1,4 +1,5 @@
 import "./globals.css";
+import AuthHashHandler from "./AuthHashHandler";
 
 export const metadata = {
   title: "Bento Silva | Área privada",
@@ -9,7 +10,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body>
+        <AuthHashHandler />
+        {children}
+      </body>
     </html>
   );
 }
