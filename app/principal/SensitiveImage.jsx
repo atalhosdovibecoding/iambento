@@ -21,7 +21,8 @@ export default function SensitiveImage({
   className = "",
   style,
   wrapperClassName = "",
-  compact = false
+  compact = false,
+  revealHref = ""
 }) {
   const [revealed, setRevealed] = useState(false);
   const src = mediaSources[mediaId];
@@ -42,6 +43,21 @@ export default function SensitiveImage({
           decoding="async"
           draggable={false}
         />
+      ) : revealHref ? (
+        <a
+          href={revealHref}
+          className={`sensitive-cover ${compact ? "sensitive-cover-compact" : ""}`}
+          aria-label={`Ver ${title}`}
+        >
+          <span className="sensitive-lock">
+            <Lock className="h-4 w-4" aria-hidden="true" />
+          </span>
+          <span className="sensitive-cover-title">{title}</span>
+          <span className="sensitive-cover-action">
+            <Eye className="h-3.5 w-3.5" aria-hidden="true" />
+            Toque para ver
+          </span>
+        </a>
       ) : (
         <button
           type="button"

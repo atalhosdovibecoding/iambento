@@ -14,14 +14,14 @@ import { plans as memberPlans } from "../../lib/plans";
 import SensitiveImage from "./SensitiveImage";
 
 const previews = [
-  { title: "Registro reservado", mediaId: "impact", position: "50% 50%", featured: true },
-  { title: "Registro limitado", mediaId: "gymWhiteShorts", position: "50% 92%", zoom: 1.32, origin: "50% 84%" },
-  { title: "Bastidor reservado", mediaId: "gymMirrorGrey", position: "50% 34%" },
-  { title: "Registro premium", mediaId: "bathroomBlack", position: "50% 62%" },
-  { title: "Bastidor discreto", mediaId: "bedClose", position: "52% 48%" },
-  { title: "Depois do treino", mediaId: "gymWhite", position: "50% 82%", zoom: 1.16, origin: "50% 80%" },
-  { title: "Espaco reservado", mediaId: "lockerBlack", position: "50% 34%" },
-  { title: "Bastidor premium", mediaId: "bathroomGreen", position: "50% 20%" }
+  { id: "registro-reservado", title: "Registro reservado", mediaId: "impact", position: "50% 50%", featured: true },
+  { id: "registro-limitado", title: "Registro limitado", mediaId: "gymWhiteShorts", position: "50% 92%", zoom: 1.32, origin: "50% 84%" },
+  { id: "bastidor-reservado", title: "Bastidor reservado", mediaId: "gymMirrorGrey", position: "50% 34%" },
+  { id: "registro-premium", title: "Registro premium", mediaId: "bathroomBlack", position: "50% 62%" },
+  { id: "bastidor-discreto", title: "Bastidor discreto", mediaId: "bedClose", position: "52% 48%" },
+  { id: "depois-do-treino", title: "Depois do treino", mediaId: "gymWhite", position: "50% 82%", zoom: 1.16, origin: "50% 80%" },
+  { id: "espaco-reservado", title: "Espaco reservado", mediaId: "lockerBlack", position: "50% 34%" },
+  { id: "bastidor-premium", title: "Bastidor premium", mediaId: "bathroomGreen", position: "50% 20%" }
 ];
 
 const privacy = [
@@ -125,6 +125,7 @@ export default function PrincipalPage() {
                     className="h-full w-full object-cover"
                     wrapperClassName="absolute inset-0"
                     compact
+                    revealHref={`#${item.id}`}
                     style={{
                       objectPosition: item.position,
                       transform: item.zoom ? `scale(${item.zoom})` : undefined,
@@ -173,9 +174,10 @@ export default function PrincipalPage() {
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {previews.map((item) => (
               <article
+                id={item.id}
                 tabIndex={0}
                 key={item.title}
-                className={`preview-tile reveal-card group relative overflow-hidden border border-bone/10 bg-ink shadow-premium outline-none ${
+                className={`preview-tile reveal-card group relative scroll-mt-24 overflow-hidden border border-bone/10 bg-ink shadow-premium outline-none ${
                   item.featured ? "preview-tile-featured aspect-[16/10] sm:col-span-2 lg:col-span-2" : "aspect-[4/5]"
                 }`}
               >
