@@ -93,6 +93,25 @@ create table if not exists public.access_logs (
   created_at timestamptz not null default now()
 );
 
+create table if not exists public.access_login_links (
+  id uuid primary key default gen_random_uuid(),
+  email text not null,
+  token_hash text not null unique,
+  expires_at timestamptz not null,
+  used_at timestamptz,
+  revoked_at timestamptz,
+  used_ip_address text,
+  used_user_agent text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists access_login_links_email_idx
+  on public.access_login_links (email, created_at desc);
+
+create index if not exists access_login_links_active_idx
+  on public.access_login_links (token_hash, expires_at)
+  where used_at is null and revoked_at is null;
+
 create or replace function public.set_updated_at()
 returns trigger
 language plpgsql
@@ -159,6 +178,7 @@ alter table public.payment_events enable row level security;
 alter table public.memberships enable row level security;
 alter table public.content_items enable row level security;
 alter table public.access_logs enable row level security;
+alter table public.access_login_links enable row level security;
 
 drop policy if exists "customers can read own profile" on public.customers;
 create policy "customers can read own profile"

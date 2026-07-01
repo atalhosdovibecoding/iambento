@@ -3,6 +3,18 @@
 import { useEffect, useState } from "react";
 import { getSupabaseBrowser } from "../../../lib/supabaseBrowser";
 
+async function claimLink({ email, state }) {
+  const response = await fetch("/api/auth/claim-link", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json"
+    },
+    body: JSON.stringify({ email, state })
+  });
+
+  return response.ok;
+}
+
 export default function AccessAuthPage() {
   const [message, setMessage] = useState("Liberando seu acesso...");
 
@@ -12,9 +24,16 @@ export default function AccessAuthPage() {
         const url = new URL(window.location.href);
         const email = String(url.searchParams.get("email") || "").trim().toLowerCase();
         const token = String(url.searchParams.get("token") || "").trim();
+        const state = String(url.searchParams.get("state") || "").trim();
 
-        if (!email || !token) {
+        if (!email || !token || !state) {
           setMessage("Link de acesso invalido.");
+          return;
+        }
+
+        const claimed = await claimLink({ email, state });
+        if (!claimed) {
+          setMessage("Esse link ja foi usado ou expirou. Solicite um novo acesso.");
           return;
         }
 

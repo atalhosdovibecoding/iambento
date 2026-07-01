@@ -12,6 +12,17 @@ const nextConfig = {
     root: rootDir
   },
   async headers() {
+    const publicFunnelHeaders = [
+      {
+        key: "X-Robots-Tag",
+        value: "noindex, nofollow, noarchive"
+      },
+      {
+        key: "Referrer-Policy",
+        value: "strict-origin-when-cross-origin"
+      }
+    ];
+
     const privateHeaders = [
       {
         key: "Cache-Control",
@@ -40,6 +51,18 @@ const nextConfig = {
     ];
 
     return [
+      {
+        source: "/",
+        headers: publicFunnelHeaders
+      },
+      {
+        source: "/principal",
+        headers: publicFunnelHeaders
+      },
+      {
+        source: "/checkout",
+        headers: publicFunnelHeaders
+      },
       {
         source: "/area",
         headers: privateHeaders

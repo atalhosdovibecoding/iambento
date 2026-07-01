@@ -1,7 +1,7 @@
 import MemberArea from "./MemberArea";
 
 export const metadata = {
-  title: "Private | Bento Silva"
+  title: "Area reservada | Bento Silva"
 };
 
 export default function AreaPage() {

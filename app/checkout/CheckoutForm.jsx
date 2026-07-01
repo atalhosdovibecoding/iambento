@@ -159,10 +159,10 @@ export default function CheckoutForm() {
         <section className="grid flex-1 gap-8 py-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:py-12">
           <div className="checkout-copy">
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.26em] text-gold">
-              Private +18
+              Acesso reservado
             </p>
             <h1 className="font-display text-4xl font-semibold leading-none text-bone sm:text-6xl lg:text-7xl">
-              Ultimo passo para liberar o private por R$30.
+              Ultimo passo para liberar sua entrada por R$30.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-8 text-smoke sm:text-lg">
               Preencha seus dados, gere o Pix e receba o acesso no email usado na compra assim que o pagamento confirmar.
@@ -190,7 +190,7 @@ export default function CheckoutForm() {
                 <div className="mb-2">
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Acesso reservado</p>
                   <div className="mt-3 flex items-end justify-between gap-4">
-                    <h2 className="text-2xl font-semibold text-bone">Acesso privado</h2>
+                    <h2 className="text-2xl font-semibold text-bone">Entrada reservada</h2>
                     <p className="checkout-price font-display text-5xl font-semibold leading-none text-bone">R$30</p>
                   </div>
                   <p className="mt-3 text-sm leading-6 text-bone/58">

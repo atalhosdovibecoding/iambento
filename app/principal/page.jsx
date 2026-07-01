@@ -1,40 +1,41 @@
 import {
   ArrowRight,
   Crown,
-  Flame,
   Gem,
   KeyRound,
   Lock,
   Mail,
   QrCode,
   ShieldCheck,
+  Sparkles,
   UserRoundCheck
 } from "lucide-react";
 import { plans as memberPlans } from "../../lib/plans";
+import SensitiveImage from "./SensitiveImage";
 
 const previews = [
-  { title: "Espelho privado", src: "/images/real/impact-preview.jpg", position: "50% 50%", featured: true },
-  { title: "Espelho pos-treino", src: "/images/real/gym-mirror-white-shorts.jpg", position: "50% 92%", zoom: 1.32, origin: "50% 84%" },
-  { title: "Pos-treino", src: "/images/real/gym-mirror-grey.png", position: "50% 34%" },
-  { title: "Abdomen quente", src: "/images/real/bathroom-black.jpg", position: "50% 62%" },
-  { title: "Na cama", src: "/images/real/bed-close.png", position: "52% 48%" },
-  { title: "Depois do treino", src: "/images/real/gym-white.png", position: "50% 36%" },
-  { title: "Espelho escuro", src: "/images/real/locker-black.png", position: "50% 34%" },
-  { title: "Banho reservado", src: "/images/real/bathroom-green.png", position: "50% 20%" }
+  { title: "Registro reservado", mediaId: "impact", position: "50% 50%", featured: true },
+  { title: "Registro limitado", mediaId: "gymWhiteShorts", position: "50% 92%", zoom: 1.32, origin: "50% 84%" },
+  { title: "Bastidor reservado", mediaId: "gymMirrorGrey", position: "50% 34%" },
+  { title: "Registro premium", mediaId: "bathroomBlack", position: "50% 62%" },
+  { title: "Bastidor discreto", mediaId: "bedClose", position: "52% 48%" },
+  { title: "Depois do treino", mediaId: "gymWhite", position: "50% 82%", zoom: 1.16, origin: "50% 80%" },
+  { title: "Espaco reservado", mediaId: "lockerBlack", position: "50% 34%" },
+  { title: "Bastidor premium", mediaId: "bathroomGreen", position: "50% 20%" }
 ];
 
 const privacy = [
   { icon: KeyRound, title: "Acesso imediato" },
   { icon: ShieldCheck, title: "Compra discreta" },
   { icon: Lock, title: "Area reservada" },
-  { icon: UserRoundCheck, title: "+18" }
+  { icon: UserRoundCheck, title: "Entrada protegida" }
 ];
 
 const proofs = [
   { icon: QrCode, title: "Pix seguro" },
   { icon: Mail, title: "Link no email" },
-  { icon: Lock, title: "Area privada" },
-  { icon: ShieldCheck, title: "Pagamento discreto" }
+  { icon: Lock, title: "Sessao salva" },
+  { icon: ShieldCheck, title: "Acesso reservado" }
 ];
 
 function CTAButton({ children, variant = "gold", href = "#acesso" }) {
@@ -54,20 +55,16 @@ function CTAButton({ children, variant = "gold", href = "#acesso" }) {
   );
 }
 
-export default function Home() {
+export default function PrincipalPage() {
   const primaryPlan = memberPlans[0];
 
   return (
     <main className="bg-ink text-bone">
-      <section className="hot-hero relative isolate min-h-screen overflow-hidden">
-        <img
-          src="/images/real/impact-preview-bg.jpg"
-          alt="Bento Silva em registro privado"
-          className="sales-hero-image absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/16 via-ink/46 to-ink" />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/86 via-ink/42 to-ink/62" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_18%,transparent_0,rgba(5,5,5,0.08)_22%,rgba(5,5,5,0.78)_82%)]" />
+      <section className="reserved-hero relative isolate min-h-screen overflow-hidden">
+        <div className="sales-hero-safe absolute inset-0" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/12 via-ink/44 to-ink" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/86 via-ink/46 to-ink/62" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_54%_18%,transparent_0,rgba(5,5,5,0.08)_22%,rgba(5,5,5,0.78)_82%)]" />
 
         <header className="absolute left-0 right-0 top-0 z-20 px-5 py-5 sm:px-8 lg:px-12">
           <div className="mx-auto flex max-w-7xl items-center justify-between">
@@ -76,67 +73,70 @@ export default function Home() {
             </a>
             <div className="flex items-center gap-2">
               <span className="rounded-full border border-gold/35 bg-gold/10 px-3 py-1.5 text-xs font-semibold text-gold backdrop-blur">
-                +18
+                Reservado
               </span>
               <a
                 href="#acesso"
                 className="rounded-full border border-bone/15 bg-ink/35 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-bone/76 backdrop-blur transition hover:border-gold/45 hover:text-gold"
               >
-                Private
+                Entrar
               </a>
             </div>
           </div>
         </header>
 
         <div className="relative z-10 flex min-h-screen items-end px-5 pb-8 pt-24 sm:px-8 lg:px-12 lg:pb-14">
-          <div className="mx-auto grid w-full max-w-7xl gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
+          <div className="mx-auto grid w-full max-w-7xl gap-8 lg:grid-cols-[0.84fr_1.16fr] lg:items-end">
             <div className="hero-fade max-w-2xl">
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-gold/35 bg-ink/56 px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-gold backdrop-blur">
                 <span className="live-dot" />
-                Acesso R$30
+                Entrada reservada
               </div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.32em] text-bone/58">
-                Conteudo adulto reservado
+                Experiencia privada
               </p>
               <h1 className="font-display text-5xl font-semibold leading-none text-bone sm:text-7xl lg:text-8xl">
                 Bento Silva,
                 <br />
-                em acesso reservado.
+                em bastidores reservados.
               </h1>
               <p className="mt-5 max-w-xl text-lg leading-8 text-smoke sm:text-xl">
-                Presenca, intimidade e acesso direto para quem quer entrar na area privada sem ruído.
+                Um clima mais intenso, reservado e feito para quem gosta de sentir a presenca mais de perto.
               </p>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <CTAButton>Entrar no privado por R$30</CTAButton>
-                <CTAButton href="#previas" variant="outline">
-                  Ver previas
+                <CTAButton>Liberar acesso</CTAButton>
+                <CTAButton href="#registros" variant="outline">
+                  Ver registros
                 </CTAButton>
               </div>
             </div>
 
-            <div className="hot-strip grid grid-cols-3 gap-2 sm:gap-3">
+            <div className="reserved-strip grid grid-cols-3 gap-2 sm:gap-3">
               {previews.slice(1, 4).map((item, index) => (
-                <a
-                  href="#previas"
+                <div
                   key={item.title}
-                  className="hot-thumb group relative aspect-[3/4] overflow-hidden border border-bone/12 bg-ink/45"
+                  className="reserved-thumb group relative aspect-[3/4] overflow-hidden border border-bone/12 bg-ink/45"
                   style={{ animationDelay: `${index * 240}ms` }}
                 >
-                  <img
-                    src={item.src}
+                  <SensitiveImage
+                    mediaId={item.mediaId}
                     alt={item.title}
+                    title={item.title}
                     className="h-full w-full object-cover"
+                    wrapperClassName="absolute inset-0"
+                    compact
                     style={{
                       objectPosition: item.position,
                       transform: item.zoom ? `scale(${item.zoom})` : undefined,
                       transformOrigin: item.origin ?? item.position
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-b from-ink/8 via-ink/16 to-ink/66" />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,rgba(255,42,61,0.14)_0,rgba(5,5,5,0.14)_58%,rgba(5,5,5,0.52)_100%)]" />
-                  <Lock className="absolute right-3 top-3 h-4 w-4 text-gold" aria-hidden="true" />
-                  <p className="absolute bottom-3 left-3 right-3 text-sm font-semibold text-bone">{item.title}</p>
-                </a>
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/10 via-ink/20 to-ink/72" />
+                  <Lock className="pointer-events-none absolute right-3 top-3 h-4 w-4 text-gold" aria-hidden="true" />
+                  <p className="pointer-events-none absolute bottom-3 left-3 right-3 text-sm font-semibold text-bone">
+                    {item.title}
+                  </p>
+                </div>
               ))}
             </div>
           </div>
@@ -154,19 +154,19 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="previas" className="px-5 py-16 sm:px-8 lg:px-14">
+      <section id="registros" className="px-5 py-16 sm:px-8 lg:px-14">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-gold">
-                Feed privado
+                Acesso limitado
               </p>
               <h2 className="font-display text-3xl font-semibold leading-tight text-bone sm:text-5xl">
-                Previas bloqueadas
+                Registros selecionados
               </h2>
             </div>
             <p className="max-w-md text-sm leading-7 text-smoke">
-              Um recorte rapido. O resto abre depois do checkout.
+              Toque para ver com mais nitidez. O carregamento inicial preserva as imagens e mantem a pagina segura.
             </p>
           </div>
 
@@ -179,26 +179,29 @@ export default function Home() {
                   item.featured ? "preview-tile-featured aspect-[16/10] sm:col-span-2 lg:col-span-2" : "aspect-[4/5]"
                 }`}
               >
-                <img
-                  src={item.src}
-                  alt={`Previa editorial: ${item.title}`}
+                <SensitiveImage
+                  mediaId={item.mediaId}
+                  alt={`Registro editorial: ${item.title}`}
+                  title={item.title}
                   className="h-full w-full object-cover"
+                  wrapperClassName="absolute inset-0"
+                  compact={!item.featured}
                   style={{
                     objectPosition: item.position,
                     transform: item.zoom ? `scale(${item.zoom})` : undefined,
                     transformOrigin: item.origin ?? item.position
                   }}
                 />
-                <div className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-bone/15 bg-ink/60 backdrop-blur">
+                <div className="pointer-events-none absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-bone/15 bg-ink/60 backdrop-blur">
                   <Lock className="h-4 w-4 text-gold" aria-hidden="true" />
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <Flame className="mb-3 h-5 w-5 text-gold" aria-hidden="true" />
+                <div className="pointer-events-none absolute bottom-0 left-0 right-0 p-5">
+                  <Sparkles className="mb-3 h-5 w-5 text-gold" aria-hidden="true" />
                   <h3 className={item.featured ? "text-2xl font-semibold text-bone sm:text-3xl" : "text-xl font-semibold text-bone"}>
                     {item.title}
                   </h3>
                   <p className="mt-2 text-sm leading-6 text-bone/58">
-                    {item.featured ? "A previa de maior impacto fica bloqueada no private." : "Reservado no private."}
+                    {item.featured ? "O registro de maior impacto fica reservado para o acesso." : "Disponivel no acesso reservado."}
                   </p>
                 </div>
               </article>
@@ -220,10 +223,10 @@ export default function Home() {
                   Proximo passo
                 </p>
                 <h2 className="font-display text-4xl font-semibold leading-tight text-bone sm:text-6xl">
-                  Desbloqueie o private por R$30.
+                  Libere sua entrada por R$30.
                 </h2>
                 <p className="mt-5 max-w-xl text-sm leading-7 text-smoke sm:text-base">
-                  Voce ja viu a previa. Agora o checkout Pix abre a entrada: pagamento confirmado, link no email da compra e area reservada liberada.
+                  O Pix confirma a entrada, envia o link para o email da compra e mantem sua sessao salva para voltar sem atrito.
                 </p>
 
                 <div className="mt-8 grid gap-3 sm:grid-cols-2">
@@ -236,9 +239,9 @@ export default function Home() {
                 </div>
 
                 <div className="offer-flow mt-8 grid gap-2 sm:grid-cols-3">
-                  <span>01 Previa vista</span>
+                  <span>01 Entrada</span>
                   <span>02 Pix seguro</span>
-                  <span>03 Acesso no email</span>
+                  <span>03 Link no email</span>
                 </div>
               </div>
 
@@ -252,7 +255,7 @@ export default function Home() {
                     {primaryPlan.priceLabel}
                   </p>
                   <p className="mt-3 text-sm text-smoke">
-                    A melhor parte fica depois do Pix.
+                    A parte reservada fica depois da confirmacao.
                   </p>
                 </div>
                 <div className="mt-8 space-y-4">
@@ -260,7 +263,7 @@ export default function Home() {
                     href="/checkout"
                     className="offer-cta premium-button inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-sm border border-gold/55 bg-gradient-to-r from-[#ff2a3d] to-[#9b0f1d] px-5 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-bone"
                   >
-                    Desbloquear por R$30
+                    Continuar por R$30
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </a>
                   <p className="text-xs leading-5 text-bone/48">
@@ -279,18 +282,18 @@ export default function Home() {
             <Gem className="h-6 w-6 text-gold" aria-hidden="true" />
           </div>
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-gold">
-            Private
+            Reservado
           </p>
           <h2 className="font-display text-4xl font-semibold leading-tight text-bone sm:text-6xl">
-            Quer entrar no reservado?
+            Quer continuar?
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-smoke sm:text-lg">
-            Plano unico de R$30 para acessar o privado do Bento Silva.
+            Plano unico de R$30 para acessar a area reservada do Bento Silva.
           </p>
           <div className="mt-8">
-            <CTAButton>Entrar no privado por R$30</CTAButton>
+            <CTAButton>Entrar agora</CTAButton>
             <p className="mt-4 text-xs uppercase tracking-[0.16em] text-bone/55">
-              Conteudo destinado exclusivamente a maiores de 18 anos.
+              Acesso permitido apenas para maiores de idade.
             </p>
           </div>
         </div>
@@ -300,7 +303,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-6xl flex-col gap-5 text-sm text-bone/60 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="font-semibold uppercase tracking-[0.22em] text-bone">Bento Silva</p>
-            <p className="mt-2">Aviso: conteudo adulto destinado a maiores de 18 anos.</p>
+            <p className="mt-2">Aviso: acesso permitido apenas para maiores de idade.</p>
           </div>
           <nav className="flex flex-wrap gap-5">
             <a href="#" className="hover:text-gold">

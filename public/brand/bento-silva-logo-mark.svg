@@ -1,0 +1,9 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Bento Silva - Selo</title>
+  <desc id="desc">Selo da marca Bento Silva com icone em vermelho.</desc>
+  <rect width="512" height="512" rx="256" fill="#050505"/>
+  <rect x="32.75" y="32.75" width="446.5" height="446.5" rx="223.25" stroke="#FF2A3D" stroke-width="1.5" opacity="0.55"/>
+  <rect x="96" y="96" width="320" height="320" rx="160" fill="#FF2A3D" fill-opacity="0.1"/>
+  <path d="M256 118L363 224.5L256 394L149 224.5L256 118Z" stroke="#FF2A3D" stroke-width="17" stroke-linejoin="round"/>
+  <path d="M190 224.5H322M256 122L213 224.5L256 394L299 224.5L256 122Z" stroke="#FF2A3D" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

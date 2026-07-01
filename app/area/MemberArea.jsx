@@ -29,31 +29,11 @@ function daysUntil(value) {
 }
 
 function formatContentType(value) {
-  const type = String(value || "conteudo").toLowerCase();
+  const type = String(value || "item").toLowerCase();
   if (type === "image") return "Imagem";
   if (type === "video") return "Video";
   if (type === "pdf") return "Arquivo";
   return type;
-}
-
-function formatWatermarkTime() {
-  return new Date().toLocaleString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit"
-  });
-}
-
-function SecurityWatermark({ label }) {
-  return (
-    <div className="secure-watermark-grid" aria-hidden="true">
-      {Array.from({ length: 24 }).map((_, index) => (
-        <span key={index}>{label}</span>
-      ))}
-    </div>
-  );
 }
 
 function LoadingState() {
@@ -234,7 +214,7 @@ export default function MemberArea() {
 
       setViewer({ ...item, signedUrl: data.signedUrl });
     } catch (error) {
-      setViewerError("Nao consegui abrir esse conteudo agora. Recarregue a pagina e tente de novo.");
+      setViewerError("Nao consegui abrir esse item agora. Recarregue a pagina e tente de novo.");
     } finally {
       setOpeningId("");
     }
@@ -261,7 +241,7 @@ export default function MemberArea() {
           href="/checkout"
           className="premium-button mt-6 inline-flex min-h-11 items-center border border-gold/55 bg-gradient-to-r from-[#ff2a3d] to-[#9b0f1d] px-4 text-sm font-semibold uppercase tracking-[0.12em] text-bone"
         >
-          Desbloquear acesso
+          Liberar entrada
         </a>
       </div>
     );
@@ -279,22 +259,21 @@ export default function MemberArea() {
     }))
   ];
   const visibleContent = activeType === "all" ? content : content.filter((item) => item.content_type === activeType);
-  const watermarkLabel = `${state.data.user.email} - ${formatWatermarkTime()}`;
 
   return (
     <div className="w-full space-y-7">
       {screenShield ? (
-        <div className="member-blackout" aria-live="polite" aria-label="Conteudo protegido" />
+        <div className="member-blackout" aria-live="polite" aria-label="Midia protegida" />
       ) : null}
 
       <header className="member-topbar flex flex-col gap-4 border-b border-bone/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0">
           <div className="inline-flex items-center gap-2 border border-gold/25 bg-gold/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-gold">
             <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-            Private ativo
+            Area ativa
           </div>
           <h1 className="mt-4 font-display text-4xl font-semibold leading-tight text-bone sm:text-5xl">
-            Bento Silva Private
+            Bento Silva
           </h1>
           <p className="mt-2 max-w-full truncate text-sm leading-6 text-smoke">{state.data.user.email}</p>
         </div>
@@ -317,10 +296,10 @@ export default function MemberArea() {
               Online agora
             </div>
             <h2 className="mt-4 max-w-xl font-display text-3xl font-semibold leading-tight text-bone sm:text-4xl">
-              Private liberado para assistir.
+              Area liberada para assistir.
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-smoke sm:text-base">
-              Escolha o conteudo na biblioteca abaixo. Cada abertura acontece dentro da area, com link temporario e sessao protegida.
+              Escolha um item na biblioteca abaixo. Cada abertura acontece dentro da area, com link temporario e sessao protegida.
             </p>
             <div className="member-status-list mt-5">
               <span>
@@ -364,7 +343,7 @@ export default function MemberArea() {
             </div>
 
             <p className="member-session-note mt-5">
-              Conteudo protegido contra acesso publico. Use esta tela para abrir as fotos e videos.
+              Midia protegida contra acesso publico. Use esta tela para abrir as fotos e videos.
             </p>
           </div>
         </div>
@@ -402,8 +381,8 @@ export default function MemberArea() {
           </div>
           <div className="flex flex-col justify-between p-5 sm:p-7">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">Destaque privado</p>
-              <h3 className="mt-4 text-2xl font-semibold text-bone">Private liberado</h3>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">Destaque reservado</p>
+              <h3 className="mt-4 text-2xl font-semibold text-bone">Area liberada</h3>
               <p className="mt-4 text-sm leading-7 text-smoke">
                 Sessao ativa para acessar os registros reservados do Bento Silva.
               </p>
@@ -429,7 +408,7 @@ export default function MemberArea() {
         <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-gold">Biblioteca</p>
-            <h2 className="mt-2 font-display text-3xl font-semibold text-bone">Conteudos liberados</h2>
+            <h2 className="mt-2 font-display text-3xl font-semibold text-bone">Biblioteca liberada</h2>
           </div>
           <div className="flex flex-wrap gap-2">
             {filters.map((filter) => (
@@ -533,7 +512,7 @@ export default function MemberArea() {
                     playsInline
                     onContextMenu={(event) => event.preventDefault()}
                   />
-                  <SecurityWatermark label={watermarkLabel} />
+                  <div className="privacy-guard" aria-hidden="true" />
                 </div>
               ) : (
                 <div className="secure-media-frame w-full">
@@ -544,7 +523,7 @@ export default function MemberArea() {
                     draggable={false}
                     onContextMenu={(event) => event.preventDefault()}
                   />
-                  <SecurityWatermark label={watermarkLabel} />
+                  <div className="privacy-guard" aria-hidden="true" />
                 </div>
               )}
             </div>

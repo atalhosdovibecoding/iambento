@@ -1,11 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getSupabaseBrowser } from "../../lib/supabaseBrowser";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function redirectActiveSession() {
+      try {
+        const supabase = getSupabaseBrowser();
+        const { data } = await supabase.auth.getSession();
+        const token = data.session?.access_token;
+
+        if (!token) return;
+
+        const response = await fetch("/api/member/summary", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (response.ok && !cancelled) {
+          window.location.replace("/area");
+        }
+      } finally {
+        if (!cancelled) {
+          setCheckingSession(false);
+        }
+      }
+    }
+
+    redirectActiveSession();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   async function submit(event) {
     event.preventDefault();
@@ -42,6 +78,9 @@ export default function LoginForm() {
     <form onSubmit={submit} className="mx-auto max-w-md border border-bone/10 bg-bone/[0.035] p-5 shadow-premium">
       <p className="text-xs font-semibold uppercase tracking-[0.22em] text-gold">Area de membros</p>
       <h1 className="mt-3 font-display text-3xl font-semibold text-bone">Entrar</h1>
+      {checkingSession ? (
+        <p className="mt-4 text-sm text-smoke">Verificando sessao salva...</p>
+      ) : null}
       <input
         value={email}
         onChange={(event) => setEmail(event.target.value)}
@@ -50,10 +89,10 @@ export default function LoginForm() {
         autoComplete="email"
       />
       <button
-        disabled={loading}
+        disabled={loading || checkingSession}
         className="premium-button mt-4 min-h-12 w-full border border-gold/55 bg-gradient-to-r from-[#ff2a3d] to-[#9b0f1d] px-5 text-sm font-semibold uppercase tracking-[0.12em] text-bone disabled:cursor-wait disabled:opacity-60"
       >
-        {loading ? "Enviando..." : "Receber acesso"}
+        {loading ? "Enviando..." : checkingSession ? "Verificando..." : "Receber acesso"}
       </button>
       {status ? <p className="mt-4 text-sm text-smoke">{status}</p> : null}
     </form>

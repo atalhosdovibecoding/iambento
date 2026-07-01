@@ -8,6 +8,10 @@ function getHashParams() {
     return null;
   }
 
+  if (window.location.pathname === "/auth/callback") {
+    return null;
+  }
+
   const params = new URLSearchParams(window.location.hash.slice(1));
 
   if (!params.get("access_token") && !params.get("error")) {
