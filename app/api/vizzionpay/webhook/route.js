@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import { NextResponse } from "next/server";
-import { sendAccessMagicLink } from "../../../../lib/accessEmail";
 import { findOrCreateCustomer, grantMembership } from "../../../../lib/memberAccess";
+import { sendOrderAccessEmail } from "../../../../lib/orderAccessEmail";
 import { getPlan, plans } from "../../../../lib/plans";
 import { getSupabaseAdmin } from "../../../../lib/supabaseAdmin";
 import {
@@ -213,10 +213,7 @@ export async function POST(request) {
 
     if (status === "completed") {
       await grantMembership({ customer: updatedOrder.customers, order: updatedOrder });
-      const emailResult = await sendAccessMagicLink({
-        email: updatedOrder.customers?.email,
-        name: updatedOrder.customers?.name
-      });
+      const emailResult = await sendOrderAccessEmail({ supabase, order: updatedOrder });
       accessEmailSent = emailResult.sent;
     }
 

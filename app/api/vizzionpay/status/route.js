@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { sendAccessMagicLink } from "../../../../lib/accessEmail";
 import { grantMembership } from "../../../../lib/memberAccess";
+import { sendOrderAccessEmail } from "../../../../lib/orderAccessEmail";
 import {
   getTransaction,
   getVizzionClientIdentifier,
@@ -69,10 +69,7 @@ async function finalizeOrder({ supabase, order, status, gatewayPayload }) {
   }
 
   await grantMembership({ customer: updatedOrder.customers, order: updatedOrder });
-  const emailResult = await sendAccessMagicLink({
-    email: updatedOrder.customers?.email,
-    name: updatedOrder.customers?.name
-  });
+  const emailResult = await sendOrderAccessEmail({ supabase, order: updatedOrder });
 
   return { accessGranted: true, accessEmailSent: emailResult.sent, order: updatedOrder };
 }
@@ -91,10 +88,13 @@ export async function GET(request) {
     const order = (await findOrder(supabase, identifier)) || (await findOrderByTransactionId(supabase, transactionId));
 
     if (order?.status === "completed") {
+      await grantMembership({ customer: order.customers, order });
+      const emailResult = await sendOrderAccessEmail({ supabase, order });
+
       return NextResponse.json({
         status: "completed",
         accessGranted: true,
-        accessEmailSent: true
+        accessEmailSent: emailResult.sent
       });
     }
 

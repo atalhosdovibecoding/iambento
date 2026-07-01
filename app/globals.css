@@ -111,6 +111,98 @@ body {
   transform: scale(1.04);
 }
 
+.presell-hero {
+  background: #050505;
+}
+
+.presell-bg {
+  --presell-bg-y: 0px;
+  object-position: 42% 62%;
+  filter: blur(0.8px) saturate(0.98) brightness(0.88) contrast(1.06);
+  transform: translate3d(0, var(--presell-bg-y), 0) scale(1.02);
+  transform-origin: 42% 42%;
+  animation: presellBreath 10s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.presell-blackout {
+  background:
+    linear-gradient(90deg, rgba(5, 5, 5, 0.78) 0%, rgba(5, 5, 5, 0.52) 42%, rgba(5, 5, 5, 0.3) 100%),
+    linear-gradient(180deg, rgba(5, 5, 5, 0.2), rgba(5, 5, 5, 0.68));
+}
+
+.presell-wine {
+  background:
+    linear-gradient(115deg, rgba(255, 42, 61, 0.22), transparent 34%),
+    linear-gradient(180deg, transparent 42%, rgba(70, 4, 13, 0.54));
+  opacity: 0.34;
+  animation: presellWinePulse 9s ease-in-out infinite;
+}
+
+.presell-copy {
+  animation: presellCopyReveal 460ms ease-out both;
+}
+
+.presell-headline {
+  animation: presellHeadlineReveal 480ms ease-out both;
+}
+
+.presell-subhead {
+  animation: presellCopyReveal 520ms ease-out 120ms both;
+}
+
+.presell-lock,
+.presell-preview {
+  position: relative;
+  overflow: hidden;
+}
+
+.presell-lock::after,
+.presell-preview::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.24) 48%, transparent 64%);
+  transform: translateX(-140%);
+  animation: presellShimmer 4.8s ease-in-out infinite;
+}
+
+.presell-cta {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 18px 54px rgba(255, 42, 61, 0.28);
+  animation: presellCtaPulse 4.6s ease-in-out infinite;
+}
+
+.presell-cta::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.34) 44%, transparent 60%);
+  transform: translateX(-130%);
+  animation: presellCtaSheen 4.6s ease-in-out infinite;
+}
+
+.presell-cta > * {
+  position: relative;
+  z-index: 1;
+}
+
+.presell-preview {
+  transition:
+    filter 160ms ease,
+    transform 160ms ease,
+    border-color 160ms ease;
+}
+
+.presell-preview:hover,
+.presell-preview:focus-visible,
+.presell-preview:active {
+  border-color: rgba(255, 42, 61, 0.38);
+  filter: blur(0.2px) brightness(1.08);
+  transform: translateY(-1px);
+}
+
 .hero-cinema {
   position: absolute;
   inset: 0;
@@ -313,15 +405,90 @@ body {
 }
 
 .offer-panel {
+  position: relative;
+  isolation: isolate;
   background:
     radial-gradient(circle at 82% 16%, rgba(255, 42, 61, 0.16), transparent 24rem),
     linear-gradient(135deg, rgba(42, 7, 16, 0.8), rgba(8, 5, 6, 0.98) 58%, rgba(5, 5, 5, 0.96));
 }
 
+.offer-motion::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  background:
+    linear-gradient(112deg, transparent 0%, rgba(255, 255, 255, 0.045) 46%, transparent 62%),
+    radial-gradient(circle at 78% 22%, rgba(255, 42, 61, 0.18), transparent 20rem);
+  opacity: 0.66;
+  transform: translateX(-10%);
+  animation: offerSheen 6.8s ease-in-out infinite;
+}
+
+.offer-badge,
+.offer-live {
+  position: relative;
+}
+
+.offer-badge::after,
+.offer-live::before {
+  display: inline-block;
+  width: 0.42rem;
+  height: 0.42rem;
+  margin-left: 0.45rem;
+  border-radius: 999px;
+  background: #ff2a3d;
+  box-shadow: 0 0 0 0 rgba(255, 42, 61, 0.46);
+  content: "";
+  animation: livePulse 1.8s ease-out infinite;
+}
+
 .offer-checkout {
   background:
-    linear-gradient(180deg, rgba(255, 42, 61, 0.1), rgba(255, 42, 61, 0.02)),
+    radial-gradient(circle at 80% 12%, rgba(255, 42, 61, 0.2), transparent 16rem),
+    linear-gradient(180deg, rgba(255, 42, 61, 0.14), rgba(255, 42, 61, 0.025)),
     rgba(5, 5, 5, 0.28);
+}
+
+.offer-price,
+.checkout-price {
+  text-shadow: 0 0 32px rgba(255, 42, 61, 0.22);
+}
+
+.offer-flow {
+  color: rgba(242, 238, 230, 0.7);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.offer-flow span {
+  border: 1px solid rgba(242, 238, 230, 0.09);
+  background: rgba(242, 238, 230, 0.035);
+  padding: 0.72rem 0.78rem;
+}
+
+.offer-cta {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 18px 58px rgba(255, 42, 61, 0.24);
+  animation: offerCtaPulse 4.4s ease-in-out infinite;
+}
+
+.offer-cta::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.28) 44%, transparent 60%);
+  transform: translateX(-130%);
+  animation: offerCtaSheen 4.4s ease-in-out infinite;
+}
+
+.offer-cta > * {
+  position: relative;
+  z-index: 1;
 }
 
 .offer-proof {
@@ -729,6 +896,123 @@ body {
   }
 }
 
+@keyframes offerSheen {
+  0%,
+  54%,
+  100% {
+    opacity: 0.5;
+    transform: translateX(-10%);
+  }
+  72% {
+    opacity: 0.78;
+    transform: translateX(8%);
+  }
+}
+
+@keyframes offerCtaPulse {
+  0%,
+  74%,
+  100% {
+    transform: translateZ(0) scale(1);
+    box-shadow: 0 18px 58px rgba(255, 42, 61, 0.24);
+  }
+  84% {
+    transform: translateZ(0) scale(1.018);
+    box-shadow: 0 22px 72px rgba(255, 42, 61, 0.38);
+  }
+}
+
+@keyframes offerCtaSheen {
+  0%,
+  72% {
+    transform: translateX(-130%);
+  }
+  88%,
+  100% {
+    transform: translateX(130%);
+  }
+}
+
+@keyframes presellBreath {
+  from {
+    transform: translate3d(0, var(--presell-bg-y), 0) scale(1.02);
+  }
+  to {
+    transform: translate3d(0, var(--presell-bg-y), 0) scale(1.06);
+  }
+}
+
+@keyframes presellWinePulse {
+  0%,
+  100% {
+    opacity: 0.38;
+  }
+  50% {
+    opacity: 0.58;
+  }
+}
+
+@keyframes presellCopyReveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes presellHeadlineReveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes presellCtaPulse {
+  0%,
+  72%,
+  100% {
+    transform: translateZ(0) scale(1);
+    box-shadow: 0 18px 54px rgba(255, 42, 61, 0.28);
+  }
+  82% {
+    transform: translateZ(0) scale(1.025);
+    box-shadow: 0 22px 68px rgba(255, 42, 61, 0.42);
+  }
+}
+
+@keyframes presellCtaSheen {
+  0%,
+  72% {
+    transform: translateX(-130%);
+  }
+  88%,
+  100% {
+    transform: translateX(130%);
+  }
+}
+
+@keyframes presellShimmer {
+  0%,
+  56% {
+    transform: translateX(-140%);
+  }
+  72%,
+  100% {
+    transform: translateX(140%);
+  }
+}
+
 @keyframes memberRise {
   from {
     opacity: 0;
@@ -754,6 +1038,50 @@ body {
 }
 
 @media (max-width: 767px) {
+  .presell-bg {
+    top: -36vh;
+    bottom: auto;
+    height: calc(100% + 54vh);
+    --presell-bg-y: 0px;
+    object-position: 43% 50%;
+    filter: blur(0.2px) saturate(1.02) brightness(0.96) contrast(1.04);
+    transform-origin: 43% 28%;
+  }
+
+  .presell-blackout {
+    background:
+      linear-gradient(180deg, rgba(5, 5, 5, 0.04) 0%, rgba(5, 5, 5, 0.38) 44%, rgba(5, 5, 5, 0.68) 100%),
+      linear-gradient(90deg, rgba(5, 5, 5, 0.42), rgba(5, 5, 5, 0.12));
+  }
+
+  .presell-wine {
+    opacity: 0.24;
+  }
+
+  .presell-copy {
+    max-width: 100%;
+  }
+
+  .presell-headline {
+    font-size: clamp(3.25rem, 15vw, 4.7rem);
+  }
+
+  .presell-cta {
+    min-height: 3.6rem;
+  }
+
+  .offer-motion::before {
+    opacity: 0.42;
+  }
+
+  .offer-flow {
+    font-size: 0.66rem;
+  }
+
+  .offer-flow span {
+    padding: 0.62rem 0.7rem;
+  }
+
   .sales-hero-image {
     object-position: 58% 50%;
     opacity: 0.52;

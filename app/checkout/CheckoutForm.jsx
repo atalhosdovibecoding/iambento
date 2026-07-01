@@ -146,7 +146,7 @@ export default function CheckoutForm() {
     <main className="checkout-stage min-h-screen bg-ink px-5 py-6 text-bone sm:px-8 lg:px-12">
       <div className="mx-auto flex min-h-[calc(100vh-3rem)] max-w-6xl flex-col">
         <header className="flex items-center justify-between gap-4 py-2">
-          <a href="/" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-bone/64 transition hover:text-gold">
+          <a href="/principal" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-bone/64 transition hover:text-gold">
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             Voltar
           </a>
@@ -162,10 +162,10 @@ export default function CheckoutForm() {
               Private +18
             </p>
             <h1 className="font-display text-4xl font-semibold leading-none text-bone sm:text-6xl lg:text-7xl">
-              Entre no privado por R$1,16.
+              Ultimo passo para liberar o private por R$30.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-8 text-smoke sm:text-lg">
-              Preencha seus dados, pague no Pix e receba o acesso no email usado na compra.
+              Preencha seus dados, gere o Pix e receba o acesso no email usado na compra assim que o pagamento confirmar.
             </p>
 
             <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:max-w-2xl">
@@ -188,11 +188,14 @@ export default function CheckoutForm() {
             {!checkout ? (
               <form onSubmit={submit} className="space-y-4">
                 <div className="mb-2">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Plano unico</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Acesso reservado</p>
                   <div className="mt-3 flex items-end justify-between gap-4">
                     <h2 className="text-2xl font-semibold text-bone">Acesso privado</h2>
-                    <p className="font-display text-5xl font-semibold leading-none text-bone">R$1,16</p>
+                    <p className="checkout-price font-display text-5xl font-semibold leading-none text-bone">R$30</p>
                   </div>
+                  <p className="mt-3 text-sm leading-6 text-bone/58">
+                    Checkout Pix rapido. O link de entrada vai para o email informado aqui.
+                  </p>
                 </div>
 
                 <label className="checkout-field">

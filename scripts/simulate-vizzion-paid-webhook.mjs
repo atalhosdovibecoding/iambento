@@ -64,9 +64,9 @@ const payload = {
     status: "COMPLETED",
     paymentMethod: "PIX",
     originalCurrency: "BRL",
-    originalAmount: 1.16,
-    amount: 1.16,
-    commissionAmount: 1.16,
+    originalAmount: 30,
+    amount: 30,
+    commissionAmount: 30,
     currency: "BRL",
     exchangeRate: 1,
     installments: 1,
@@ -81,7 +81,7 @@ const payload = {
   orderItems: [
     {
       id: `item_${Date.now().toString(36)}`,
-      price: 1.16,
+      price: 30,
       product: {
         id: "vip",
         name: "Acesso privado",
