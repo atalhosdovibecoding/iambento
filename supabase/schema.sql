@@ -144,7 +144,7 @@ for each row execute function public.set_updated_at();
 
 insert into public.plans (id, name, amount_cents, duration_days, active)
 values
-  ('vip', 'Acesso privado', 3000, 30, true)
+  ('vip', 'Acesso vitalicio', 3000, 36500, true)
 on conflict (id) do update set
   name = excluded.name,
   amount_cents = excluded.amount_cents,

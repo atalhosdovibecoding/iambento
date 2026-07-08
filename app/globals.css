@@ -942,6 +942,24 @@ body {
   line-height: 1.35;
 }
 
+.checkout-benefit {
+  display: flex;
+  min-height: 2.8rem;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid rgba(242, 238, 230, 0.09);
+  background: rgba(242, 238, 230, 0.03);
+  padding: 0.68rem 0.72rem;
+  color: rgba(242, 238, 230, 0.72);
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.checkout-benefit svg {
+  flex-shrink: 0;
+}
+
 .checkout-field {
   display: flex;
   flex-direction: column;

@@ -250,7 +250,8 @@ export default function MemberArea() {
   const content = state.data.content || [];
   const featured = content[0];
   const expiresInDays = daysUntil(state.data.membership.expiresAt);
-  const validityProgress = Math.max(8, Math.min(100, Math.round((expiresInDays / 30) * 100)));
+  const isLifetimeAccess = expiresInDays >= 3650;
+  const validityProgress = isLifetimeAccess ? 100 : Math.max(8, Math.min(100, Math.round((expiresInDays / 30) * 100)));
   const filters = [
     { id: "all", label: "Todos" },
     ...Array.from(new Set(content.map((item) => item.content_type))).map((type) => ({
@@ -312,7 +313,7 @@ export default function MemberArea() {
               </span>
               <span>
                 <CalendarClock className="h-4 w-4" aria-hidden="true" />
-                Valido ate {formatDate(state.data.membership.expiresAt)}
+                {isLifetimeAccess ? "Acesso vitalicio" : `Valido ate ${formatDate(state.data.membership.expiresAt)}`}
               </span>
             </div>
           </div>
@@ -330,8 +331,8 @@ export default function MemberArea() {
 
             <div className="mt-5">
               <div className="mb-2 flex items-center justify-between gap-3 text-xs font-semibold uppercase tracking-[0.14em] text-bone/55">
-                <span>Renovacao</span>
-                <span className="text-gold">{formatDate(state.data.membership.expiresAt)}</span>
+                <span>{isLifetimeAccess ? "Acesso" : "Renovacao"}</span>
+                <span className="text-gold">{isLifetimeAccess ? "Vitalicio" : formatDate(state.data.membership.expiresAt)}</span>
               </div>
               <div className="member-progress" aria-hidden="true">
                 <span style={{ width: `${validityProgress}%` }} />

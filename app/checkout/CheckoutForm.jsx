@@ -27,7 +27,7 @@ function formatPhone(value) {
 
 function statusLabel(status) {
   if (status === "completed") return "Pagamento confirmado";
-  if (status === "failed") return "Pagamento nao aprovado";
+  if (status === "failed") return "Pagamento não aprovado";
   if (status === "refunded") return "Pagamento estornado";
   return "Aguardando Pix";
 }
@@ -76,7 +76,7 @@ export default function CheckoutForm() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data?.error || "Nao foi possivel gerar o Pix.");
+        throw new Error(data?.error || "Não foi possível gerar o Pix.");
       }
 
       setCheckout(data);
@@ -117,14 +117,14 @@ export default function CheckoutForm() {
           if (data.status === "completed") {
             setMessage(
               data.accessEmailSent
-                ? "Acesso liberado. O email de entrada foi enviado para o email da compra."
-                : "Pagamento confirmado. Nao consegui enviar o email automatico agora; solicite o acesso em /login com o email da compra."
+                ? "Acesso liberado. O e-mail de entrada foi enviado para o e-mail da compra."
+                : "Pagamento confirmado. Não consegui enviar o e-mail automático agora; solicite o acesso em /login com o e-mail da compra."
             );
           }
         }
       } catch {
         if (!cancelled) {
-          setMessage("Ainda aguardando confirmacao do pagamento.");
+          setMessage("Ainda aguardando confirmação do pagamento.");
         }
       } finally {
         if (!cancelled) {
@@ -159,27 +159,27 @@ export default function CheckoutForm() {
         <section className="grid flex-1 gap-8 py-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:py-12">
           <div className="checkout-copy">
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.26em] text-gold">
-              Acesso reservado
+              Pagamento único
             </p>
             <h1 className="font-display text-4xl font-semibold leading-none text-bone sm:text-6xl lg:text-7xl">
-              Ultimo passo para liberar sua entrada por R$30.
+              Entre uma vez. Aproveite sem limites.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-8 text-smoke sm:text-lg">
-              Preencha seus dados, gere o Pix e receba o acesso no email usado na compra assim que o pagamento confirmar.
+              Acesso vitalício e ilimitado com Pix seguro. Receba o link no e-mail da compra e volte quando quiser, sem mensalidade.
             </p>
 
             <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:max-w-2xl">
               <div className="checkout-trust">
                 <Lock className="h-4 w-4 text-gold" aria-hidden="true" />
-                <span>Ambiente reservado</span>
+                <span>Acesso vitalício</span>
               </div>
               <div className="checkout-trust">
                 <QrCode className="h-4 w-4 text-gold" aria-hidden="true" />
-                <span>Pix copia e cola</span>
+                <span>Uso ilimitado</span>
               </div>
               <div className="checkout-trust">
                 <Mail className="h-4 w-4 text-gold" aria-hidden="true" />
-                <span>Acesso por email</span>
+                <span>Acesso por e-mail</span>
               </div>
             </div>
           </div>
@@ -188,14 +188,30 @@ export default function CheckoutForm() {
             {!checkout ? (
               <form onSubmit={submit} className="space-y-4">
                 <div className="mb-2">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Acesso reservado</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Oferta vitalícia</p>
                   <div className="mt-3 flex items-end justify-between gap-4">
-                    <h2 className="text-2xl font-semibold text-bone">Entrada reservada</h2>
+                    <h2 className="text-2xl font-semibold text-bone">Acesso ilimitado</h2>
                     <p className="checkout-price font-display text-5xl font-semibold leading-none text-bone">R$30</p>
                   </div>
                   <p className="mt-3 text-sm leading-6 text-bone/58">
-                    Checkout Pix rapido. O link de entrada vai para o email informado aqui.
+                    Pagamento único. Sem mensalidade, sem recorrência e com link enviado para o e-mail informado aqui.
                   </p>
+                </div>
+
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {[
+                    "Acesso vitalício ao conteúdo adquirido",
+                    "Entradas ilimitadas na área reservada",
+                    "Acesso a vídeos ilimitados com antecedência",
+                    "Acesso a mais de 45 conteúdos",
+                    "Acesso a todas as atualizações",
+                    "Compra discreta com Pix seguro"
+                  ].map((item) => (
+                    <div key={item} className="checkout-benefit">
+                      <CheckCircle2 className="h-4 w-4 text-gold" aria-hidden="true" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
                 </div>
 
                 <label className="checkout-field">
@@ -209,7 +225,7 @@ export default function CheckoutForm() {
                 </label>
 
                 <label className="checkout-field">
-                  <span>Email de acesso</span>
+                  <span>E-mail de acesso</span>
                   <input
                     autoComplete="email"
                     inputMode="email"
@@ -221,7 +237,7 @@ export default function CheckoutForm() {
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="checkout-field">
-                    <span>WhatsApp</span>
+                    <span>Telefone</span>
                     <input
                       autoComplete="tel"
                       inputMode="tel"
@@ -251,8 +267,11 @@ export default function CheckoutForm() {
                   className="premium-button inline-flex min-h-12 w-full items-center justify-center gap-2 border border-gold/55 bg-gradient-to-r from-[#ff2a3d] to-[#9b0f1d] px-5 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-bone disabled:cursor-not-allowed disabled:opacity-45"
                 >
                   {status === "loading" ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <QrCode className="h-4 w-4" aria-hidden="true" />}
-                  Gerar Pix seguro
+                  Liberar meu acesso agora
                 </button>
+                <p className="text-center text-xs leading-5 text-bone/48">
+                  Pagamento único. Acesso enviado por e-mail após a confirmação.
+                </p>
               </form>
             ) : (
               <div className="space-y-5">
@@ -276,7 +295,7 @@ export default function CheckoutForm() {
                 </div>
 
                 <div>
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-bone/50">Pix copia e cola</p>
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-bone/50">Pix Copia e Cola</p>
                   <textarea readOnly value={checkout.pixCode} className="checkout-pix-code" />
                   <button
                     type="button"
@@ -284,7 +303,7 @@ export default function CheckoutForm() {
                     className="premium-button mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 border border-bone/15 bg-ink/60 px-4 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-bone transition hover:border-gold/55"
                   >
                     <Copy className="h-4 w-4" aria-hidden="true" />
-                    {copied ? "Codigo copiado" : "Copiar codigo Pix"}
+                    {copied ? "Código copiado" : "Copiar código Pix"}
                   </button>
                 </div>
 
@@ -295,7 +314,7 @@ export default function CheckoutForm() {
                     href="/login"
                     className="inline-flex min-h-11 w-full items-center justify-center border border-gold/55 bg-gold/15 px-4 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-gold"
                   >
-                    Entrar na area de membros
+                    Entrar na área de membros
                   </a>
                 ) : null}
               </div>
