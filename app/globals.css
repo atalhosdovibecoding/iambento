@@ -1215,6 +1215,17 @@ body {
   opacity: 0.18;
 }
 
+.member-media-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  min-height: 16rem;
+  place-items: center;
+  background: #050303;
+  pointer-events: none;
+}
+
 @media print {
   .secure-media-frame,
   .protected-media {

@@ -51,22 +51,49 @@ export async function GET(request) {
   }
 
   const bucket = process.env.SUPABASE_MEMBER_BUCKET || "member-content";
-  const contentWithThumbnails = await Promise.all(
-    (content || []).map(async (item) => {
-      const { storage_path, thumbnail_path, ...publicItem } = item;
-      const thumbnailPath = thumbnail_path || null;
+  const thumbnailPaths = [...new Set((content || []).map((item) => item.thumbnail_path).filter(Boolean))];
+  const imagePaths = [
+    ...new Set(
+      (content || [])
+        .filter((item) => item.content_type === "image")
+        .map((item) => item.storage_path)
+        .filter(Boolean)
+    )
+  ];
+  const signedThumbnailUrls = new Map();
+  const signedImageUrls = new Map();
 
-      if (!thumbnailPath) {
-        return { ...publicItem, thumbnailUrl: null };
-      }
+  const [thumbnailResult, imageResult] = await Promise.all([
+    thumbnailPaths.length
+      ? supabase.storage.from(bucket).createSignedUrls(thumbnailPaths, 3600)
+      : Promise.resolve({ data: [] }),
+    imagePaths.length
+      ? supabase.storage.from(bucket).createSignedUrls(imagePaths, 300)
+      : Promise.resolve({ data: [] })
+  ]);
 
-      const { data: signed } = await supabase.storage.from(bucket).createSignedUrl(thumbnailPath, 900);
-      return {
-        ...publicItem,
-        thumbnailUrl: signed?.signedUrl || null
-      };
-    })
-  );
+  for (const signedThumbnail of thumbnailResult.data || []) {
+    if (signedThumbnail.path && signedThumbnail.signedUrl) {
+      signedThumbnailUrls.set(signedThumbnail.path, signedThumbnail.signedUrl);
+    }
+  }
+
+  for (const signedImage of imageResult.data || []) {
+    if (signedImage.path && signedImage.signedUrl) {
+      signedImageUrls.set(signedImage.path, signedImage.signedUrl);
+    }
+  }
+
+  const imageUrlExpiresAt = Date.now() + 4.5 * 60 * 1000;
+  const contentWithThumbnails = (content || []).map((item) => {
+    const { storage_path, thumbnail_path, ...publicItem } = item;
+    return {
+      ...publicItem,
+      thumbnailUrl: thumbnail_path ? signedThumbnailUrls.get(thumbnail_path) || null : null,
+      contentUrl: item.content_type === "image" ? signedImageUrls.get(storage_path) || null : null,
+      contentUrlExpiresAt: item.content_type === "image" ? imageUrlExpiresAt : null
+    };
+  });
 
   const plan = plans.find((item) => item.id === membership.plan_id);
 

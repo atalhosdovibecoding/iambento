@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 import { getActiveMembershipForUser } from "../../../../../lib/memberAccess";
 import { getSupabaseAdmin, getUserFromBearer } from "../../../../../lib/supabaseAdmin";
 
@@ -29,26 +29,23 @@ export async function GET(request, context) {
     return privateJson({ error: "unauthorized" }, { status: 401 });
   }
 
-  const { membership } = await getActiveMembershipForUser(user);
+  const supabase = getSupabaseAdmin();
+  const [{ membership }, { data: content, error: contentError }] = await Promise.all([
+    getActiveMembershipForUser(user),
+    supabase
+      .from("content_items")
+      .select("*")
+      .eq("id", id)
+      .eq("active", true)
+      .maybeSingle()
+  ]);
 
   if (!membership) {
     return privateJson({ error: "inactive_membership" }, { status: 403 });
   }
 
-  const supabase = getSupabaseAdmin();
-  const { data: content, error: contentError } = await supabase
-    .from("content_items")
-    .select("*")
-    .eq("id", id)
-    .eq("active", true)
-    .maybeSingle();
-
-  if (contentError) {
-    return privateJson({ error: "content_error" }, { status: 500 });
-  }
-
-  if (!content) {
-    return privateJson({ error: "not_found" }, { status: 404 });
+  if (contentError || !content) {
+    return privateJson({ error: contentError ? "content_error" : "not_found" }, { status: contentError ? 500 : 404 });
   }
 
   const { data: signed, error: signedError } = await supabase.storage
@@ -59,12 +56,14 @@ export async function GET(request, context) {
     return privateJson({ error: "signed_url_error" }, { status: 500 });
   }
 
-  await supabase.from("access_logs").insert({
-    user_id: user.id,
-    membership_id: membership.id,
-    content_item_id: content.id,
-    ip_address: request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || null,
-    user_agent: request.headers.get("user-agent")
+  after(async () => {
+    await supabase.from("access_logs").insert({
+      user_id: user.id,
+      membership_id: membership.id,
+      content_item_id: content.id,
+      ip_address: request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || null,
+      user_agent: request.headers.get("user-agent")
+    });
   });
 
   return privateJson({

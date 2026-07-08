@@ -5,6 +5,7 @@ import {
   Eye,
   ExternalLink,
   Lock,
+  Loader2,
   LogOut,
   PlayCircle,
   ShieldCheck,
@@ -59,6 +60,7 @@ export default function MemberArea() {
   const [openingId, setOpeningId] = useState("");
   const [activeType, setActiveType] = useState("all");
   const [viewer, setViewer] = useState(null);
+  const [viewerLoading, setViewerLoading] = useState(false);
   const [viewerError, setViewerError] = useState("");
   const [screenShield, setScreenShield] = useState(false);
 
@@ -190,6 +192,16 @@ export default function MemberArea() {
   async function openContent(item) {
     setOpeningId(item.id);
     setViewerError("");
+    const canOpenImmediately =
+      item.content_type === "image" &&
+      item.contentUrl &&
+      Number(item.contentUrlExpiresAt || 0) > Date.now();
+
+    if (canOpenImmediately) {
+      setViewerLoading(true);
+      setViewer({ ...item, signedUrl: item.contentUrl });
+      setOpeningId("");
+    }
 
     try {
       const supabase = getSupabaseBrowser();
@@ -198,6 +210,15 @@ export default function MemberArea() {
 
       if (!token) {
         window.location.replace("/login");
+        return;
+      }
+
+      if (canOpenImmediately) {
+        fetch(`/api/member/content/${item.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }).catch(() => null);
         return;
       }
 
@@ -212,6 +233,7 @@ export default function MemberArea() {
         throw new Error(data?.error || "content_open_error");
       }
 
+      setViewerLoading(true);
       setViewer({ ...item, signedUrl: data.signedUrl });
     } catch (error) {
       setViewerError("Nao consegui abrir esse item agora. Recarregue a pagina e tente de novo.");
@@ -363,6 +385,11 @@ export default function MemberArea() {
               <img
                 src={featured.thumbnailUrl}
                 alt={featured.title}
+                width="1200"
+                height="900"
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
                 className="absolute inset-0 h-full w-full object-cover"
               />
             ) : (
@@ -451,6 +478,11 @@ export default function MemberArea() {
                   <img
                     src={item.thumbnailUrl}
                     alt={item.title}
+                    width="720"
+                    height="900"
+                    loading="lazy"
+                    decoding="async"
+                    fetchPriority="low"
                     className="h-full w-full object-cover brightness-[0.86] transition duration-300 group-hover:scale-[1.035] group-hover:brightness-100"
                   />
                 ) : (
@@ -492,7 +524,10 @@ export default function MemberArea() {
               </div>
               <button
                 type="button"
-                onClick={() => setViewer(null)}
+                onClick={() => {
+                  setViewer(null);
+                  setViewerLoading(false);
+                }}
                 className="flex h-10 w-10 items-center justify-center border border-bone/10 bg-bone/[0.035] text-bone/72 transition hover:border-gold/45 hover:text-bone"
                 aria-label="Fechar"
               >
@@ -506,25 +541,43 @@ export default function MemberArea() {
                     src={viewer.signedUrl}
                     className="protected-media max-h-[76vh] w-full bg-black"
                     controls
+                    preload="metadata"
                     controlsList="nodownload noplaybackrate noremoteplayback"
                     disablePictureInPicture
                     disableRemotePlayback
                     autoPlay
                     playsInline
+                    onCanPlay={() => setViewerLoading(false)}
+                    onError={() => setViewerLoading(false)}
                     onContextMenu={(event) => event.preventDefault()}
                   />
                   <div className="privacy-guard" aria-hidden="true" />
+                  {viewerLoading ? (
+                    <div className="member-media-loading" role="status" aria-label="Carregando video">
+                      <Loader2 className="h-7 w-7 animate-spin text-gold" aria-hidden="true" />
+                    </div>
+                  ) : null}
                 </div>
               ) : (
                 <div className="secure-media-frame w-full">
                   <img
                     src={viewer.signedUrl}
                     alt={viewer.title}
+                    width="1600"
+                    height="1600"
+                    decoding="async"
                     className="protected-media max-h-[76vh] w-full object-contain"
                     draggable={false}
+                    onLoad={() => setViewerLoading(false)}
+                    onError={() => setViewerLoading(false)}
                     onContextMenu={(event) => event.preventDefault()}
                   />
                   <div className="privacy-guard" aria-hidden="true" />
+                  {viewerLoading ? (
+                    <div className="member-media-loading" role="status" aria-label="Carregando imagem">
+                      <Loader2 className="h-7 w-7 animate-spin text-gold" aria-hidden="true" />
+                    </div>
+                  ) : null}
                 </div>
               )}
             </div>
